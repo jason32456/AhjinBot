@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits } = require('discord.js');
+const { Client, GatewayIntentBits, Events } = require('discord.js');
 const { config } = require('dotenv');
 const fs = require('fs');
 const path = require('path');
@@ -6,6 +6,8 @@ const { welcomeConfig } = require('./config/welcomeConfig');
 const { verifyConfig, saveVerifyConfig } = require('./config/verifyConfig'); 
 
 config();
+
+const BOT_TOKEN = process.env.BOT_TOKEN;
 
 const client = new Client({ 
     intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMembers, GatewayIntentBits.MessageContent, GatewayIntentBits.DirectMessages] 
@@ -21,8 +23,8 @@ for (const file of commandFiles) {
 }
 
 
-client.once('ready', () => {
-    console.log(`Logged in as ${client.user.tag}!`);
+client.once(Events.ClientReady, readyClient => {
+    console.log(`Ready! Logged in as ${readyClient.user.tag}`);
 });
 
 
@@ -39,4 +41,4 @@ client.on('interactionCreate', async (interaction) => {
     await interactionCreate(client, interaction);
 });
 
-client.login(process.env.BOT_TOKEN);
+client.login(BOT_TOKEN);
