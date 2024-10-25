@@ -7,7 +7,7 @@ const API_KEY = process.env.GEMINI_API;
 
 const genAI = new GoogleGenerativeAI(API_KEY);
 
-export async function generateStory(prompt) {
+export async function generate(prompt) {
     const model = await genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     // const prompt = "Write a story about a magic backpack.";

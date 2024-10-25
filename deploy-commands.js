@@ -2,6 +2,8 @@ const { REST, Routes } = require('discord.js');
 const { config } = require('dotenv');
 config();
 
+const CLIENT_ID = process.env.GUILD_ID;
+
 const OptionType = {
     STRING: 3,
     INTEGER: 4,
@@ -115,7 +117,18 @@ const commands = [
             },
         ],
     },
-
+    {
+        name: 'askgemini',
+        description: 'Ask Gemini a question.',
+        options: [
+            {
+                name: 'prompt',
+                type: OptionType.STRING,
+                description: 'The prompt to ask Gemini.',
+                required: true,
+            },
+        ],
+    }
 ];
 
 const rest = new REST({ version: '10' }).setToken(process.env.BOT_TOKEN);
@@ -125,7 +138,7 @@ const rest = new REST({ version: '10' }).setToken(process.env.BOT_TOKEN);
         console.log('Started refreshing application (/) commands.');
 
         await rest.put(
-            Routes.applicationCommands(process.env.CLIENT_ID),
+            Routes.applicationCommands(CLIENT_ID),
             { body: commands },
         );
 
